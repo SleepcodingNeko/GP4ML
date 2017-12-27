@@ -73,14 +73,21 @@ def logistic(x):
     return 1 / (1 + np.exp(-x))
 
 
-def weights_post_pdf(grid, X1, X2, y1, y2, Sigma_prior):
+def weights_post_pdf(grid, X1, X2, y1, y2, sigma_prior):
     f1 = np.dot(grid, X1)
     f2 = np.dot(grid, X2)
     pdf = np.sum(logistic(y1 * f1), axis=2) + np.sum(logistic(y2 * f2), axis=2)
 
-    Sigma_prior_sqrt = Sigma_prior ** 0.5
-    penalty = np.dot(grid, Sigma_prior_sqrt)
+    sigma_prior_sqrt = sigma_prior ** 0.5
+    penalty = np.dot(grid, sigma_prior_sqrt)
     penalty = np.linalg.norm(penalty, axis=2)
     pdf = pdf - 0.5 * penalty
     pdf = np.exp(pdf)
+    pdf = pdf / np.sum(pdf)
     return pdf
+
+
+def lin_reg_predict(x_star, w_grid, X1, X2, y1, y2, sigma_prior):
+    p = logistic(np.dot(w_grid, x_star)) * weights_post_pdf(w_grid, X1, X2, y1, y2, sigma_prior)
+    p = np.sum(p)
+    return p
