@@ -18,7 +18,6 @@ n_test = 200
 x_test = np.linspace(x_lim[0], x_lim[1], n_test)
 
 # predictive distribution
-n_samples = 3
 scale = 1
 cov_test_test = uu.se_matrix(x_test, scale=scale)
 cov_train_train = uu.se_matrix(x_train, scale=scale)
@@ -31,7 +30,8 @@ cov = cov_test_test - np.dot(np.dot(cov_test_train, cov_train_train_inv), cov_tr
 # cov += 1e-6 * np.eye(n_test)  # avoid singularities
 
 # pick samples
-samples = np.random.multivariate_normal(mu, cov, n_samples)
+n_samples = 3
+samples1 = np.random.multivariate_normal(mu, cov, n_samples)
 
 # FIGURES
 # plot objective function
@@ -39,16 +39,17 @@ t = np.linspace(x_lim[0], x_lim[1], 100)
 plt.plot(t, uu.objective(t), c='b')
 
 # plot train inputs
-plt.scatter(x_train, f_train, marker='+', c='k', s=120, zorder=10)
+plt.scatter(x_train, f_train, marker='+', c='r', s=120, zorder=10)
 
 # plot samples
 # for i in range(n_samples):
 #     plt.plot(x_test, samples[i, :], marker='')
 
 # plot mean +- 2*variance
-plt.plot(x_test, mu, c='k', linewidth=0.8)
-plt.fill_between(x_test, mu - 2 * np.sqrt(cov[np.diag_indices_from(cov)]),
-                 mu + 2 * np.sqrt(cov[np.diag_indices_from(cov)]), facecolor='gray', alpha=0.5)
+# plt.plot(x_test, mu, c='k', linewidth=0.8)
+plt.scatter(x_test, mu, marker='.', facecolors='none', edgecolors='k', linewidth=0.8, zorder=10)
+# plt.fill_between(x_test, mu - 2 * np.sqrt(cov[np.diag_indices_from(cov)]),
+#                  mu + 2 * np.sqrt(cov[np.diag_indices_from(cov)]), facecolor='gray', alpha=0.5)
 
 plt.grid(alpha=0.5)
 plt.xlabel('input, x')

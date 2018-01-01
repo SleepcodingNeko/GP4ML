@@ -11,11 +11,11 @@ n1 = 3
 n2 = 3
 d = 2  # number of features
 np.random.seed(42)
-# X1 = np.random.multivariate_normal([-0.5, -0.5], 0.2 * np.eye(d), n1).T
+# X1 = np.random.multivariate_normal([-0.5, -0.5], 0.1 * np.eye(d), n1).T
 X1 = np.array([[-5, -1, 1], [1, -5, 0]])  # book's example
 y1 = -np.ones((1, n1))
 
-# X2 = np.random.multivariate_normal([0.5, 0.5], 0.2 * np.eye(d), n2).T
+# X2 = np.random.multivariate_normal([0.5, 0.5], 0.1 * np.eye(d), n2).T
 X2 = np.array([[-0.5, 1, 5], [-0.5, 5, 4]])  # book's example
 y2 = np.ones((1, n2))
 
@@ -27,7 +27,7 @@ f, axarr = plt.subplots(2, 2)
 plt.tight_layout()
 
 # plot weights pdf
-w_lim = 4
+w_lim = 3
 w_grid_num = 50
 w1 = np.linspace(-w_lim, w_lim, w_grid_num)
 w2 = np.linspace(-w_lim, w_lim, w_grid_num)
@@ -77,7 +77,7 @@ for i in range(x_grid_num):
 
 axarr[1, 1].scatter(X1[0, :], X1[1, :], marker='x', color='k')
 axarr[1, 1].scatter(X2[0, :], X2[1, :], marker='o', facecolors='none', color='k')
-cn = axarr[1, 1].contour(XX1, XX2, predictive_pdf, 7, colors='k', linewidths=0.5)
+cn = axarr[1, 1].contour(XX1, XX2, predictive_pdf, 5, colors='k', linewidths=0.5)
 
 axarr[1, 1].clabel(cn, inline=1, fontsize=7, fmt='%.1f')
 axarr[1, 1].axis('square')
